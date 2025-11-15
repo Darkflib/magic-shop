@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Product List - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="admin-header-row">
+        <h2>Product List</h2>
+        <a href="/admin/new" class="btn btn-primary">Create New Product</a>
+    </div>
+
+    {% if products %}
+    <div class="admin-table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Rarity</th>
+                    <th>Price</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>
+                        <img src="{{ product.image_path }}" alt="{{ product.name }}" class="admin-thumb">
+                    </td>
+                    <td>
+                        <strong>{{ product.name }}</strong>
+                    </td>
+                    <td>{{ product.category }}</td>
+                    <td>
+                        <span class="rarity-badge rarity-{{ product.rarity.lower() }}">
+                            {{ product.rarity }}
+                        </span>
+                    </td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td>
+                        <a href="/product/{{ product.id }}" class="btn btn-small" target="_blank">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No products yet. <a href="/admin/new">Create your first product</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

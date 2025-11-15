@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin - Magical Emporium{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <h1 class="admin-title">
+                    <a href="/admin">Admin Panel</a>
+                </h1>
+                <nav class="admin-nav">
+                    <a href="/admin">Products</a>
+                    <a href="/admin/new">Create New</a>
+                    <a href="/">View Store</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="admin-footer">
+        <div class="container">
+            <p>Admin Panel - Magical Emporium</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.database import init_db
-from app.routes import public
+from app.routes import admin, public
 
 
 @asynccontextmanager
@@ -38,6 +38,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # Include routers
 app.include_router(public.router, tags=["Public"])
+app.include_router(admin.router, tags=["Admin"])
 
 
 @app.get("/health")

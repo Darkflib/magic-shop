@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Create Product - Admin{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+    <div class="admin-header-row">
+        <h2>Create New Product</h2>
+        <a href="/admin" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div class="admin-form-container">
+        <div class="form-card">
+            <h3>Product Creation</h3>
+            <p class="form-help">
+                Enter a one-line description of your magical item.
+                The AI will generate a full description, image, and all product details.
+                This process may take 10-30 seconds.
+            </p>
+
+            <form hx-post="/admin/create" hx-target="#result" hx-swap="innerHTML">
+                <div class="form-group">
+                    <label for="description">Product Description (one line)</label>
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        class="form-control"
+                        placeholder="e.g., A sword that glows in the presence of orcs"
+                        required
+                        maxlength="200"
+                    >
+                    <small class="form-text">Brief description of the magical item you want to create</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Create Product
+                    </button>
+                    <button type="reset" class="btn btn-secondary">
+                        Clear
+                    </button>
+                </div>
+            </form>
+
+            <div id="result" class="result-container">
+                <!-- Results will be inserted here by HTMX -->
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h4>How it works</h4>
+            <ol class="info-list">
+                <li>AI generates a detailed magical description</li>
+                <li>Creates a unique image for your item</li>
+                <li>Extracts metadata (name, category, rarity, price)</li>
+                <li>Saves everything to the database</li>
+            </ol>
+            <p class="info-note">
+                The process is fully automated and may take up to 30 seconds.
+                Please be patient while the magic happens!
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add loading indicator on form submission
+    document.addEventListener('htmx:beforeRequest', function(event) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Generating magical description and image...</p>
+                <p class="loading-subtext">This may take 10-30 seconds. Please wait.</p>
+            </div>
+        `;
+    });
+
+    // Clear form on successful creation
+    document.addEventListener('htmx:afterOnLoad', function(event) {
+        if (event.detail.successful && event.target.closest('form')) {
+            const resultContent = document.getElementById('result').innerHTML;
+            if (resultContent.includes('success')) {
+                event.target.closest('form').reset();
+            }
+        }
+    });
+</script>
+{% endblock %}
