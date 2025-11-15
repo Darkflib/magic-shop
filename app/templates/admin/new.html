@@ -18,7 +18,7 @@
                 This process may take 10-30 seconds.
             </p>
 
-            <form hx-post="/admin/create" hx-target="#result" hx-swap="innerHTML">
+            <form hx-post="/admin/create" hx-target="#result" hx-swap="innerHTML" hx-on::after-request="handleResponse(event)">
                 <div class="form-group">
                     <label for="description">Product Description (one line)</label>
                     <input
@@ -77,14 +77,24 @@
         `;
     });
 
-    // Clear form on successful creation
-    document.addEventListener('htmx:afterOnLoad', function(event) {
-        if (event.detail.successful && event.target.closest('form')) {
-            const resultContent = document.getElementById('result').innerHTML;
-            if (resultContent.includes('success')) {
-                event.target.closest('form').reset();
+    // Handle response (both success and error)
+    function handleResponse(event) {
+        const xhr = event.detail.xhr;
+        const resultDiv = document.getElementById('result');
+
+        // HTMX automatically swaps content for 200-299 status codes
+        // For error status codes (400, 500), we need to manually swap
+        if (xhr.status >= 400) {
+            resultDiv.innerHTML = xhr.responseText;
+        }
+
+        // Clear form on successful creation
+        if (xhr.status === 200 && xhr.responseText.includes('success')) {
+            const form = event.target.closest('form');
+            if (form) {
+                form.reset();
             }
         }
-    });
+    }
 </script>
 {% endblock %}
