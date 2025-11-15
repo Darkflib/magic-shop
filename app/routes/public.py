@@ -5,7 +5,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
+from app.config import Config
 from app.database import get_db
+from app.services.gemini import GeminiClient
 from app.services.product import ProductService
 
 router = APIRouter()
@@ -23,7 +25,14 @@ async def homepage(request: Request, db: Session = Depends(get_db)):
     Returns:
         HTMLResponse with rendered index.html template
     """
-    products = ProductService.get_all_products(db)
+    # Initialize services (only need db for read operations)
+    api_key = Config.get_gemini_api_key()
+    system_prompts = Config.get_system_prompt()
+    gemini_client = GeminiClient(api_key, system_prompts)
+    image_dir = Config.get_image_dir()
+
+    product_service = ProductService(db, gemini_client, image_dir)
+    products = product_service.get_all_products()
 
     return templates.TemplateResponse(
         "index.html", {"request": request, "products": products}
@@ -45,7 +54,14 @@ async def product_detail(
         HTMLResponse with rendered product.html template
         Returns 404 page if product not found
     """
-    product = ProductService.get_product_by_id(db, product_id)
+    # Initialize services
+    api_key = Config.get_gemini_api_key()
+    system_prompts = Config.get_system_prompt()
+    gemini_client = GeminiClient(api_key, system_prompts)
+    image_dir = Config.get_image_dir()
+
+    product_service = ProductService(db, gemini_client, image_dir)
+    product = product_service.get_product_by_id(product_id)
 
     if product is None:
         # Return a 404 page
