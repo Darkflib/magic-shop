@@ -123,8 +123,9 @@ class ProductService:
             convert_png_to_jpg(png_path, jpg_path, quality=85)
             logger.info("Image converted to JPG: %s", jpg_path)
 
-            # Step 7: Update product with image path (store full path)
-            product.image_path = str(jpg_path)
+            # Step 7: Update product with image path (store web-accessible path)
+            # Store path relative to web root: /images/filename.jpg
+            product.image_path = f"/images/{jpg_filename}"
             logger.debug("Updated product image_path: %s", product.image_path)
 
             # Step 8: Commit the transaction

@@ -36,6 +36,13 @@ app = FastAPI(
 # Mount static files
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
+# Mount images directory for serving product images
+from pathlib import Path
+from app.config import Config
+image_dir = Config.get_image_dir()
+if image_dir.exists():
+    app.mount("/images", StaticFiles(directory=str(image_dir)), name="images")
+
 # Include routers
 app.include_router(public.router, tags=["Public"])
 app.include_router(admin.router, tags=["Admin"])
