@@ -1,8 +1,10 @@
 """Public-facing routes for the magic shop storefront."""
 
+import markdown
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from markupsafe import Markup
 from sqlalchemy.orm import Session
 
 from app.config import Config
@@ -12,6 +14,13 @@ from app.services.product import ProductService
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
+
+# Add markdown filter to Jinja2 environment
+def markdown_filter(text):
+    """Convert markdown to HTML."""
+    return Markup(markdown.markdown(text))
+
+templates.env.filters['markdown'] = markdown_filter
 
 
 @router.get("/", response_class=HTMLResponse)
