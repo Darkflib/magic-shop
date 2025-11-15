@@ -1,0 +1,65 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*$py.class
+*.so
+
+# Environment files
+.env
+.env.*
+
+# Data directory
+data/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Documentation
+*.md
+PLANNING.md
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Cache
+.mypy_cache/
+.ruff_cache/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Example files
+image-example.py
+requirements.txt
+
+# Claude configuration
+.claude/

@@ -24,6 +24,10 @@ wheels/
 venv/
 env/
 ENV/
+.venv/
+
+# UV lock file
+uv.lock
 
 # Environment variables
 .env

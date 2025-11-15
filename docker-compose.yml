@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  magic-shop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: magic-shop
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - DATA_DIR=/data
+    volumes:
+      # Persistent data storage
+      - ./data:/data
+      # Editable configuration file
+      - ./config.yaml:/app/config.yaml:ro
+      # Link data images to static directory for serving
+      - ./data/images:/app/static/images
+    restart: unless-stopped
