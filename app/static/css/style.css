@@ -153,9 +153,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rarity-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    display: inline-block;
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -163,6 +161,14 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Absolute positioning only for badges inside product cards/images */
+.product-image-container .rarity-badge,
+.product-detail-image .rarity-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
 }
 
 .rarity-common {
