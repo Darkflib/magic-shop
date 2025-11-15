@@ -672,6 +672,31 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.85rem;
 }
 
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-view {
+    margin-right: 0.5rem;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.actions-cell .btn {
+    margin-right: 0.5rem;
+}
+
+.actions-cell .btn:last-child {
+    margin-right: 0;
+}
+
 /* Admin Form Container */
 .admin-form-container {
     display: grid;

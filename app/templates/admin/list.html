@@ -42,8 +42,17 @@
                     </td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-                    <td>
-                        <a href="/product/{{ product.id }}" class="btn btn-small" target="_blank">View</a>
+                    <td class="actions-cell">
+                        <a href="/product/{{ product.id }}" class="btn btn-small btn-view" target="_blank">View</a>
+                        <button
+                            class="btn btn-small btn-danger"
+                            hx-delete="/admin/product/{{ product.id }}"
+                            hx-confirm="Are you sure you want to delete '{{ product.name }}'? This cannot be undone."
+                            hx-target="closest tr"
+                            hx-swap="outerHTML swap:1s"
+                        >
+                            Delete
+                        </button>
                     </td>
                 </tr>
                 {% endfor %}

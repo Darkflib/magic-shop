@@ -215,3 +215,73 @@ async def admin_create_product(
             """,
             status_code=500
         )
+
+
+@router.delete("/product/{product_id}", response_class=HTMLResponse)
+async def admin_delete_product(
+    product_id: int,
+    db: Session = Depends(get_db),
+    username: str = Depends(verify_admin)
+):
+    """Delete a product by ID.
+
+    This endpoint is called via HTMX and returns an HTML fragment
+    to update the table row.
+
+    Args:
+        product_id: ID of the product to delete
+        db: Database session dependency
+        username: Authenticated username
+
+    Returns:
+        HTMLResponse with empty content (row will be removed)
+    """
+    logger.info("Admin %s deleting product ID: %d", username, product_id)
+
+    try:
+        # Initialize services to get the product
+        api_key = Config.get_gemini_api_key()
+        system_prompts = Config.get_system_prompt()
+        gemini_client = GeminiClient(api_key, system_prompts)
+        image_dir = Config.get_image_dir()
+
+        product_service = ProductService(db, gemini_client, image_dir)
+        product = product_service.get_product_by_id(product_id)
+
+        if not product:
+            logger.warning("Product not found: %d", product_id)
+            return HTMLResponse(
+                content="",
+                status_code=404
+            )
+
+        # Delete image files if they exist
+        import os
+        if product.image_path:
+            # Extract filename from web path (/images/filename.jpg)
+            filename = product.image_path.split('/')[-1]
+            png_file = image_dir / filename.replace('.jpg', '.png')
+            jpg_file = image_dir / filename
+
+            # Delete both PNG and JPG
+            for file_path in [png_file, jpg_file]:
+                if file_path.exists():
+                    os.remove(file_path)
+                    logger.info("Deleted image file: %s", file_path)
+
+        # Delete from database
+        db.delete(product)
+        db.commit()
+
+        logger.info("Product deleted successfully: ID=%d", product_id)
+
+        # Return empty response (HTMX will remove the row)
+        return HTMLResponse(content="", status_code=200)
+
+    except Exception as e:
+        logger.error("Failed to delete product %d: %s", product_id, str(e), exc_info=True)
+        db.rollback()
+        return HTMLResponse(
+            content=f"<td colspan='8' class='error'>Failed to delete: {str(e)}</td>",
+            status_code=500
+        )
