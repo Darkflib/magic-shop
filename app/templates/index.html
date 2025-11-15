@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Magical Emporium - Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h2>Welcome to the Magical Emporium</h2>
+    <p>Discover our collection of enchanted artifacts, mystical potions, and legendary treasures</p>
+</div>
+
+{% if products %}
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        <a href="/product/{{ product.id }}" class="product-link">
+            <div class="product-image-container">
+                <img src="{{ product.image_path }}" alt="{{ product.name }}" class="product-image">
+                <span class="rarity-badge rarity-{{ product.rarity.lower() }}">{{ product.rarity }}</span>
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-category">{{ product.category }}</p>
+                <div class="product-tags">
+                    {% for tag in product.tags[:3] %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                <p class="product-price">{{ product.price }}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h3>No Magical Items Available</h3>
+    <p>Our shelves are currently empty. Please check back soon for new enchanted arrivals!</p>
+</div>
+{% endif %}
+{% endblock %}

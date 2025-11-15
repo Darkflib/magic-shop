@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Magical Emporium{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="/">Home</a> / <span>{{ product.name }}</span>
+</div>
+
+<div class="product-detail">
+    <div class="product-detail-image">
+        <img src="{{ product.image_path }}" alt="{{ product.name }}">
+        <span class="rarity-badge rarity-{{ product.rarity.lower() }}">{{ product.rarity }}</span>
+    </div>
+
+    <div class="product-detail-info">
+        <h1 class="product-detail-title">{{ product.name }}</h1>
+        <p class="product-detail-category">{{ product.category }}</p>
+
+        <div class="product-detail-tags">
+            {% for tag in product.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="product-detail-description">
+            <h3>Description</h3>
+            <p>{{ product.description }}</p>
+        </div>
+
+        <div class="product-detail-price">
+            <span class="price-label">Price:</span>
+            <span class="price-value">{{ product.price }}</span>
+        </div>
+
+        <div class="product-detail-actions">
+            <button class="btn btn-primary btn-disabled" disabled>
+                Out of Stock
+            </button>
+            <p class="stock-notice">This item is currently unavailable for purchase</p>
+        </div>
+
+        <div class="product-detail-meta">
+            <p><strong>Item ID:</strong> #{{ product.id }}</p>
+            <p><strong>Added:</strong> {{ product.created_at.strftime('%B %d, %Y') }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="back-link">
+    <a href="/" class="btn btn-secondary">Back to All Items</a>
+</div>
+{% endblock %}

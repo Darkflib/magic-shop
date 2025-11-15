@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Item Not Found - Magical Emporium{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <h1 class="error-title">404</h1>
+    <h2 class="error-subtitle">Magical Item Not Found</h2>
+    <p class="error-message">
+        The enchanted item you're looking for (ID: {{ product_id }}) seems to have vanished into thin air!
+    </p>
+    <p class="error-description">
+        Perhaps it was never here, or maybe it was claimed by another adventurer.
+    </p>
+    <div class="error-actions">
+        <a href="/" class="btn btn-primary">Return to Emporium</a>
+    </div>
+</div>
+{% endblock %}

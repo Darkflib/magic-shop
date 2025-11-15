@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Magical Emporium{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="site-title">
+                    <a href="/">Magical Emporium</a>
+                </h1>
+                <p class="site-tagline">Purveyor of Fine Magical Artifacts & Enchanted Wares</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; {{ "now"|default("2025") }} Magical Emporium. All enchantments guaranteed.</p>
+                <p class="footer-note">Wands sold separately. No refunds on used potions.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
