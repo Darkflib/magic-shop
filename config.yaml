@@ -1,0 +1,21 @@
+# Magic Shop Configuration File
+# This file contains system prompts and application settings
+
+system_prompts:
+  description_generation: |
+    You are a creative writer for a magical item shop. Generate whimsical,
+    enchanting descriptions for rare and magical items. Emphasize their
+    mystical properties, legendary origins, and extreme rarity. Write in
+    an engaging, story-like style that makes each item feel precious and
+    unique. Keep descriptions between 100-200 words.
+
+  image_prompt_generation: |
+    Based on the following magical item description, create a detailed
+    image generation prompt that captures the visual essence of the item.
+    Include details about appearance, magical effects, materials, and
+    atmosphere. Make it vivid and specific.
+
+settings:
+  data_dir: /data
+  image_size: 1024
+  log_level: INFO
